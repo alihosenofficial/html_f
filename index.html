@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Code Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        textarea, pre {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>HTML Code Formatter</h2>
+    <textarea id="codeInput" rows="8" placeholder="Paste your HTML code here..."></textarea>
+    <button onclick="formatCode()">Format Code</button>
+    <button onclick="prettyPrint()">Pretty Print Minimized Code</button>
+    <button onclick="copyOutput()">Copy Output</button>
+    <pre class="output" id="codeOutput"></pre>
+    
+  
+</div>
+
+<script>
+    function formatCode() {
+        let code = document.getElementById('codeInput').value;
+        let formattedCode = code
+            // Remove comments
+            .replace(/<!--[\s\S]*?-->/g, '')
+            // Remove spaces between tags, but not inside tags
+            .replace(/>\s+</g, '><')
+            // Remove all spaces outside tags
+            .replace(/\s+/g, ' ')
+            // Remove leading/trailing spaces
+            .trim();
+        
+        // Display the formatted code
+        document.getElementById('codeOutput').textContent = formattedCode;
+    }
+
+    function prettyPrint() {
+        let code = document.getElementById('codeInput').value;
+        let prettyCode = code
+            .replace(/</g, '\n<') // New line before each tag
+            .replace(/>\s*</g, '>\n<') // New line between tags
+            .trim();
+
+        document.getElementById('codeOutput').textContent = prettyCode;
+    }
+
+    function copyOutput() {
+        let output = document.getElementById('codeOutput');
+        navigator.clipboard.writeText(output.textContent).then(() => {
+            alert('Output copied to clipboard!');
+        }, () => {
+            alert('Failed to copy output.');
+        });
+    }
+</script>
+
+</body>
+</html>
